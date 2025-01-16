@@ -1,0 +1,13 @@
+//백준 1000, A+B
+
+#include <iostream>
+
+int main (){
+    int a, b;
+    std::cin >> a >> b;
+    std::cout << a+b;
+
+
+
+    return 0;
+}
