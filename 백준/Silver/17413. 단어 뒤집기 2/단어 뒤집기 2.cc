@@ -2,14 +2,15 @@
 #include <iostream>
 #include <stack>
 
-char string[100'000];
 std::stack<char> stack;
 
 int main(){
 
     std::string s;
     std::getline(std::cin, s);
+    
     bool flag = false;
+    
     for(int i{0}; i<s.size(); ++i){
         if(s[i] == ' '){
             while(!stack.empty()){
@@ -39,10 +40,6 @@ int main(){
             stack.pop();
         }
         std::cout << ' ';
-
-
-
-
 
     return 0;
 }
