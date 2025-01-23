@@ -16,7 +16,7 @@ int main(){
 
     std::sort(divi, divi+N);
 
-    std::cout << ((N > 0) ? divi[0] * divi[N-1] : -(divi[0] * divi[N-1]));
+    std::cout <<  divi[0] * divi[N-1];
 
     return 0;
 }
