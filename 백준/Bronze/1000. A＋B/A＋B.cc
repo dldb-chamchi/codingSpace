@@ -1,13 +1,10 @@
-//백준 1000, A+B
-
 #include <iostream>
+using namespace std;
 
-int main (){
-    int a, b;
-    std::cin >> a >> b;
-    std::cout << a+b;
-
-
-
+int A, B;
+int main() {
+    cin >> A >> B;
+    cout << A+B;
+    
     return 0;
 }
