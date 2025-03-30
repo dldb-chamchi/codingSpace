@@ -1,7 +1,7 @@
 //백준 11441, 합 구하기
 #include <iostream>
 
-int arr[100'000];
+int arr[100'005];
 
 int main(){
 
