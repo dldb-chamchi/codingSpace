@@ -1,4 +1,4 @@
-#백준 8625, BABBA
+#백준 9625, BABBA
 
 K = int(input())
 
