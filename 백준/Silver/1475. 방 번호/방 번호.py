@@ -1,3 +1,5 @@
+import math
+
 #백준, 1475 방 번호
 
 num = input()
@@ -14,7 +16,7 @@ for i in range(10):
     else:
         maxV = max(count[i], maxV)
 
-sixNine = (count[6] + count[9]) // 2 + 1 if (count[6] + count[9]) % 2 != 0 else  (count[6] + count[9]) // 2
+sixNine = math.ceil((count[6] + count[9]) / 2)
 maxV = max(maxV, sixNine)
 
 print(maxV)
