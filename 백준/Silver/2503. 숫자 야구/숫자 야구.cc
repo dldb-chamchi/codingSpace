@@ -1,47 +1,52 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
+//using namespace std;
 
-bool arr[1'000];
+bool numPool[1'001];
+
+void generate() {
+	for(int i{123}; i<=987; ++i){
+		std::string num = std::to_string(i);
+		if(num[0] == '0' || num[1] == '0' || num[2] == '0') numPool[i] = false;
+		else if(num[0] == num[1] || num[1] == num[2] || num[0] == num[2]) numPool[i] = false;
+		else numPool[i] = true;
+	}
+}
+
+void check(std::string_view n, int st, int ba) {
+	for(int i{123}; i<=987; ++i) {
+		std::string num = std::to_string(i);
+		int s{0}, b{0};
+		if (numPool[i]) {
+			for(int j{0}; j<3; ++j) {
+				for(int k{0}; k<3; ++k) {
+					if(j == k && n[j] == num[k]) ++s;
+					else if(j != k && n[j] == num[k]) ++b;
+				}
+			}
+			if (st != s || ba != b) numPool[i] = false; 
+		}
+	}
+}
 
 int main() {
-    int N, strike, ball;
-    std::string num;
+	
+	int N, num, strike, ball;
+	std::cin >> N;
 
-    std::cin >> N;
+	generate();
 
-    std::fill(arr, arr + 1000, true);
+	while(N--) {
+		std::cin >> num >> strike >> ball;
+		check(std::to_string(num), strike, ball);
+	}
+	
+	int cnt{0};
+	for(int i{123}; i<=987; ++i) {
+		if (numPool[i]) ++cnt;
+	}
 
-    for (int i{123}; i <= 987; ++i) {
-        std::string tmp = std::to_string(i);
-        if (tmp[0] == tmp[1] || tmp[1] == tmp[2] || tmp[0] == tmp[2]) arr[i] = false;
-        if (tmp[0] == '0' || tmp[1] == '0' || tmp[2] == '0') arr[i] = false;
-    }
+	std::cout << cnt;
 
-    for (int i{0}; i < N; ++i) {
-        std::cin >> num >> strike >> ball;
-        for (int j{123}; j <= 987; ++j) {
-            int sCnt{0}, bCnt{0};
-            std::string tmp = std::to_string(j);
-
-            if (arr[j]) {
-                for (int k{0}; k < 3; ++k) {
-                    for (int l{0}; l < 3; ++l) {
-                        if (k == l && tmp[k] == num[l]) ++sCnt;
-                        if (k != l && tmp[k] == num[l]) ++bCnt;
-                    }
-                }
-                if (sCnt != strike || bCnt != ball) arr[j] = false;
-            }
-        }
-    }
-
-    int cnt{0};
-    for (int i{123}; i <= 987; ++i) {
-        if (arr[i]) ++cnt;
-    }
-
-    std::cout << cnt;
-
-    return 0;
+	return 0;
 }
