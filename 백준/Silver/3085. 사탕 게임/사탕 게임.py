@@ -1,41 +1,35 @@
+def check():
+    global result
+    for i in range(N):
+        cnt = 1
+        for j in range(N-1):
+            if board[i][j] == board[i][j+1]:
+                cnt += 1
+                result = max(result, cnt)
+            else: cnt = 1
+
+    for i in range(N):
+        cnt = 1
+        for j in range(N-1):
+            if board[j][i] == board[j+1][i]:
+                cnt += 1
+                result = max(result, cnt)
+            else: cnt = 1
+
+result = 1
+
 N = int(input())
 
-grid = [list(input()) for _ in range(N)]
-
-maxCnt = 1
-
-def checkRowMax():
-    best = 1
-    for i in range(N):
-        cnt = 1
-        for j in range(N-1):
-            if grid[i][j] == grid[i][j+1]:
-                cnt += 1
-            else:
-                cnt = 1
-            best = max(best, cnt)
-    return best
-
-def checkColMax():
-    best = 1
-    for i in range(N):
-        cnt = 1
-        for j in range(N-1):
-            if grid[j][i] == grid[j+1][i]:
-                cnt += 1
-            else:
-                cnt = 1
-            best = max(best, cnt)
-    return best
+board = [list(input()) for _ in range(N)]
 
 for i in range(N):
     for j in range(N-1):
-        grid[i][j], grid[i][j+1] = grid[i][j+1], grid[i][j]
-        maxCnt = max(maxCnt, checkRowMax(), checkColMax())
-        grid[i][j], grid[i][j+1] = grid[i][j+1], grid[i][j]
+        board[i][j], board[i][j+1] = board[i][j+1], board[i][j] #행
+        check()
+        board[i][j+1], board[i][j] = board[i][j], board[i][j+1]
 
-        grid[j][i], grid[j+1][i] = grid[j+1][i], grid[j][i]
-        maxCnt = max(maxCnt, checkRowMax(), checkColMax())
-        grid[j][i], grid[j+1][i] = grid[j+1][i], grid[j][i]
+        board[j][i], board[j+1][i] = board[j+1][i], board[j][i] #열
+        check()
+        board[j+1][i], board[j][i] = board[j][i], board[j+1][i]
 
-print(maxCnt)
+print(result)
