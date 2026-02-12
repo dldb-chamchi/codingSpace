@@ -1,26 +1,35 @@
-import sys
-input = sys.stdin.readline
-
 N = int(input())
-cranes = list(map(int, input().split()))
+crane = list(map(int, input().split()))
+
 M = int(input())
-boxes = list(map(int, input().split()))
+box = list(map(int, input().split()))
 
-cranes.sort(reverse=True)
-boxes.sort(reverse=True)
+crane.sort(reverse=True)
+box.sort(reverse=True)
 
-cnt = 0
+visit = [False]*M
+pos = [0]*N
 
-if boxes[0] > cranes[0]: cnt = -1
-else:
-    while boxes:
-        for c in cranes:
-            if boxes and c < boxes[-1]:
-                continue
-            for b in boxes:
-                if c >= b:
-                    boxes.remove(b)
-                    break
-        cnt+=1
+
+if crane[0] < box[0]:
+  print(-1)
+  exit()
+
+m = 0
+done = 0
+
+while done < M:
+  for i in range(N):
+    for j in range(pos[i], M):
+      pos[i] = j + 1
+      if visit[j]:
+        continue
+      if crane[i] >= box[j]:
+        visit[j] = True
+        pos[i] = j+1
+        done += 1
+        break
         
-print(cnt)
+  m += 1
+
+print(m)
