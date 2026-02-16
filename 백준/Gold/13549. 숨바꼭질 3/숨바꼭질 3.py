@@ -1,26 +1,36 @@
 from collections import deque
-N , K = map(int,input().split())
+import sys
 
+N, K = map(int, sys.stdin.readline().split())
 
-deq = deque()
-deq.append([N,0])
-visited = [N]
+MAX = 100000
+dist = [-1] * (MAX + 1)
+dq = deque()
 
-while True:
-    X = deq.popleft()
-    posi = X[0]
-    second = X[1]
+dist[N] = 0
+dq.append(N)
 
-    if posi == K:
-        print(second)
+while dq:
+    x = dq.popleft()
+
+    if x == K:
+        print(dist[x])
         break
 
-    if posi * 2 >= 0 and posi * 2 <= 100000 and posi * 2 not in visited:
-        visited.append(posi * 2)
-        deq.append([posi * 2,second])
-    if posi - 1 >= 0 and posi - 1 <= 100000 and posi - 1 not in visited:
-        visited.append(posi - 1)
-        deq.append([posi - 1,second + 1])
-    if posi + 1 >= 0 and posi + 1 <= 100000 and posi + 1 not in visited:
-        visited.append(posi + 1)
-        deq.append([posi + 1,second + 1])
+    # 0초 이동: 순간이동
+    nx = x * 2
+    if 0 <= nx <= MAX and dist[nx] == -1:
+        dist[nx] = dist[x]
+        dq.appendleft(nx)
+
+    # 1초 이동: -1
+    nx = x - 1
+    if 0 <= nx <= MAX and dist[nx] == -1:
+        dist[nx] = dist[x] + 1
+        dq.append(nx)
+
+    # 1초 이동: +1
+    nx = x + 1
+    if 0 <= nx <= MAX and dist[nx] == -1:
+        dist[nx] = dist[x] + 1
+        dq.append(nx)
