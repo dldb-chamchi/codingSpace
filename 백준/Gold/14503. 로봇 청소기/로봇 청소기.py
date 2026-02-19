@@ -1,74 +1,37 @@
-from collections import deque
-
 N, M = map(int, input().split())
 x, y, d = map(int, input().split())
-
 grid = [list(map(int, input().split())) for _ in range(N)]
-Q = deque()
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+# 0:북, 1:동, 2:남, 3:서
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
 
-Q.append((x, y))
 cnt = 0
 
-while Q:
-  x, y = Q.popleft()
-  if grid[x][y] == 0:
-    cnt += 1
-    grid[x][y] = 2 #청소
+while True:
+    # 1) 현재 칸 청소
+    if grid[x][y] == 0:
+        grid[x][y] = 2
+        cnt += 1
 
-  clean = 0
-  for i in range(4):
-    nx, ny = x+dx[i], y+dy[i]
-    if nx >= N or ny >= M or nx < 0 or ny < 0:
-      cleant += 1
-      continue
-    if grid[nx][ny] != 0:
-      clean += 1
+    # 2) 왼쪽부터 4방향 탐색
+    moved = False
+    for _ in range(4):
+        d = (d + 3) % 4  # 왼쪽 회전
+        nx, ny = x + dx[d], y + dy[d]
+        if 0 <= nx < N and 0 <= ny < M and grid[nx][ny] == 0:
+            x, y = nx, ny
+            moved = True
+            break
 
-  if clean == 4:
-    flag = False
-    if d == 0: #북
-      if x+1 < N and grid[x+1][y] != 1:
-        Q.append((x+1, y))
-      else: flag = True
-    elif d == 1:
-      if y-1 >= 0 and grid[x][y-1] != 1:
-        Q.append((x, y-1))
-      else: flag = True
-    elif d == 2:
-      if x-1 >= 0 and grid[x-1][y] != 1:
-        Q.append((x-1, y))
-      else: flag = True
-    else:
-      if y+1 < M and grid[x][y+1] != 1:
-        Q.append((x, y+1))
-      else: flag = True
-    if flag:
-      print(cnt)
-      exit()
-  else:
-    for i in range(4):
-      if d == 0:
-        d = 3
-      else:
-        d -= 1
-      if d == 0:
-        if x-1 >= 0 and grid[x-1][y] == 0:
-          Q.append((x-1, y))
-          break
-      elif d == 1:
-        if y+1 < M and grid[x][y+1] == 0:
-          Q.append((x, y+1))
-          break
-      elif d == 2:
-        if x+1 < N and grid[x+1][y] == 0:
-          Q.append((x+1, y))
-          break
-      else:
-        if y-1 >= 0 and grid[x][y-1] == 0:
-          Q.append((x, y-1))
-          break
+    if moved:
+        continue
+
+    # 3) 네 방향 모두 못 가면 뒤로 이동
+    back_dir = (d + 2) % 4
+    bx, by = x + dx[back_dir], y + dy[back_dir]
+    if not (0 <= bx < N and 0 <= by < M) or grid[bx][by] == 1:
+        break  # 뒤가 벽이면 종료
+    x, y = bx, by
 
 print(cnt)
