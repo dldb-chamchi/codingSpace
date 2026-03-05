@@ -12,8 +12,4 @@ for _ in range(M):
   heapq.heappush(nums, x+y)
   heapq.heappush(nums, x+y)
 
-ans = 0
-while nums:
-  ans += heapq.heappop(nums)
-
-print(ans)
+print(sum(nums))
