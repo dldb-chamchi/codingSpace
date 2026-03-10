@@ -1,4 +1,3 @@
-
 import heapq
 
 N, H, T = map(int, input().split())
